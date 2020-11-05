@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_03wpv8a" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.3.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" id="Definitions_03wpv8a" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.3.5">
   <bpmn:collaboration id="Collaboration_0mod07l">
     <bpmn:participant id="Participant_1t9yldq" name="App" processRef="Process_0ica8i3" />
     <bpmn:participant id="Participant_1sflz7e" name="Customer" processRef="Process_1su1ssz" />
@@ -107,11 +107,11 @@
       <bpmn:outgoing>Flow_1m1n330</bpmn:outgoing>
       <bpmn:outgoing>Flow_188cccj</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:endEvent id="Event_0vx58m3" name="Order Paied">
+    <bpmn:endEvent id="Event_0vx58m3" name="Order Paid">
       <bpmn:incoming>Flow_1m1n330</bpmn:incoming>
       <bpmn:messageEventDefinition id="MessageEventDefinition_1yi9ssw" />
     </bpmn:endEvent>
-    <bpmn:endEvent id="Event_1c7kceb" name="Order Paied">
+    <bpmn:endEvent id="Event_1c7kceb" name="Order Paid">
       <bpmn:incoming>Flow_188cccj</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_1unodlk" sourceRef="Activity_1xr8heo" targetRef="Gateway_02aa72u" />
@@ -140,6 +140,19 @@
     </bpmn:textAnnotation>
     <bpmn:association id="Association_15s39fu" sourceRef="Activity_0e6veoe" targetRef="TextAnnotation_12vr2xk" />
     <bpmn:association id="Association_1uutvy3" sourceRef="Activity_0nf1cuh" targetRef="TextAnnotation_16ax9fn" />
+    <bpmn:textAnnotation id="TextAnnotation_03gw6en">
+      <bpmn:text>Login-Service?</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1fpe2ay" sourceRef="Activity_1twmoi9" targetRef="TextAnnotation_03gw6en" />
+    <bpmn:association id="Association_0mwftbl" sourceRef="Activity_1xr8heo" targetRef="TextAnnotation_0phd033" />
+    <bpmn:textAnnotation id="TextAnnotation_0phd033">
+      <bpmn:text>Check Database for Prescription of patient?</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1b4e5c0" sourceRef="Activity_0pwk0ja" targetRef="TextAnnotation_17oersg" />
+    <bpmn:association id="Association_0vlcwur" sourceRef="Activity_0u956um" targetRef="TextAnnotation_1xtu08c" />
+    <bpmn:association id="Association_0xydemy" sourceRef="Activity_1js0fol" targetRef="TextAnnotation_0394ag3" />
+    <bpmn:association id="Association_0ah2qnw" sourceRef="Activity_0v33c4r" targetRef="TextAnnotation_0qtq0rx" />
+    <bpmn:association id="Association_0go1ksu" sourceRef="Activity_0nf1cuh" targetRef="TextAnnotation_160sa3v" />
   </bpmn:process>
   <bpmn:process id="Process_1su1ssz" isExecutable="false">
     <bpmn:task id="Activity_0l3kvsi" name="Start Order">
@@ -149,6 +162,21 @@
       <bpmn:outgoing>Flow_1pxyyl7</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="Flow_1pxyyl7" sourceRef="Event_0a3uimc" targetRef="Activity_0l3kvsi" />
+    <bpmn:textAnnotation id="TextAnnotation_17oersg">
+      <bpmn:text>In-App selection for customer: order prescribe product or enter symptoms</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_1xtu08c">
+      <bpmn:text>App suggests different providers/products (normal or generica) -&gt; customer sleects product</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_0394ag3">
+      <bpmn:text>App presents DC where the selected product is immediately available</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_0qtq0rx">
+      <bpmn:text>Check: Did the payment arrive?</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_160sa3v">
+      <bpmn:text>QR-Code only needed when Pickup in Pharmacy or at self-service station</bpmn:text>
+    </bpmn:textAnnotation>
   </bpmn:process>
   <bpmn:process id="Process_1i3llpd" isExecutable="false">
     <bpmn:dataStoreReference id="DataStoreReference_18ggt5n" name="E-Patient Dossier" />
@@ -275,12 +303,12 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Participant_1t9yldq_di" bpmnElement="Participant_1t9yldq" isHorizontal="true">
-        <dc:Bounds x="115" y="400" width="2055" height="260" />
+        <dc:Bounds x="115" y="400" width="2055" height="590" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_12vr2xk_di" bpmnElement="TextAnnotation_12vr2xk">
         <dc:Bounds x="1010" y="480" width="100" height="30" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_16ax9fn_di" bpmnElement="TextAnnotation_16ax9fn">
+      <bpmndi:BPMNShape id="TextAnnotation_16ax9fn_di" bpmnElement="TextAnnotation_16ax9fn" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
         <dc:Bounds x="1677" y="429" width="123" height="30" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1unodlk_di" bpmnElement="Flow_1unodlk">
@@ -379,22 +407,22 @@
       <bpmndi:BPMNShape id="Activity_0e6veoe_di" bpmnElement="Activity_0e6veoe">
         <dc:Bounds x="930" y="530" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0u956um_di" bpmnElement="Activity_0u956um">
+      <bpmndi:BPMNShape id="Activity_0u956um_di" bpmnElement="Activity_0u956um" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
         <dc:Bounds x="1220" y="530" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0v33c4r_di" bpmnElement="Activity_0v33c4r">
+      <bpmndi:BPMNShape id="Activity_0v33c4r_di" bpmnElement="Activity_0v33c4r" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
         <dc:Bounds x="1510" y="530" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0nf1cuh_di" bpmnElement="Activity_0nf1cuh">
+      <bpmndi:BPMNShape id="Activity_0nf1cuh_di" bpmnElement="Activity_0nf1cuh" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
         <dc:Bounds x="1630" y="530" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1js0fol_di" bpmnElement="Activity_1js0fol">
+      <bpmndi:BPMNShape id="Activity_1js0fol_di" bpmnElement="Activity_1js0fol" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
         <dc:Bounds x="1360" y="530" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1twmoi9_di" bpmnElement="Activity_1twmoi9">
+      <bpmndi:BPMNShape id="Activity_1twmoi9_di" bpmnElement="Activity_1twmoi9" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
         <dc:Bounds x="260" y="530" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1xr8heo_di" bpmnElement="Activity_1xr8heo">
+      <bpmndi:BPMNShape id="Activity_1xr8heo_di" bpmnElement="Activity_1xr8heo" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
         <dc:Bounds x="420" y="530" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="DataStoreReference_1f7u00t_di" bpmnElement="DataStoreReference_1f7u00t">
@@ -403,7 +431,7 @@
           <dc:Bounds x="387" y="492" width="26" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0pwk0ja_di" bpmnElement="Activity_0pwk0ja">
+      <bpmndi:BPMNShape id="Activity_0pwk0ja_di" bpmnElement="Activity_0pwk0ja" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
         <dc:Bounds x="660" y="430" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_02aa72u_di" bpmnElement="Gateway_02aa72u" isMarkerVisible="true">
@@ -415,7 +443,7 @@
       <bpmndi:BPMNShape id="Gateway_1udezr5_di" bpmnElement="Gateway_1udezr5" isMarkerVisible="true">
         <dc:Bounds x="785" y="545" width="50" height="50" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_16il0x1_di" bpmnElement="Activity_16il0x1">
+      <bpmndi:BPMNShape id="Activity_16il0x1_di" bpmnElement="Activity_16il0x1" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
         <dc:Bounds x="1780" y="530" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_1651imw_di" bpmnElement="Gateway_1651imw" isMarkerVisible="true">
@@ -427,13 +455,13 @@
       <bpmndi:BPMNShape id="Event_0vx58m3_di" bpmnElement="Event_0vx58m3">
         <dc:Bounds x="2062" y="442" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="2051" y="485" width="60" height="14" />
+          <dc:Bounds x="2054" y="485" width="54" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0446jt9_di" bpmnElement="Event_1c7kceb">
         <dc:Bounds x="2062" y="552" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="2050" y="595" width="60" height="14" />
+          <dc:Bounds x="2053" y="595" width="54" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_15s39fu_di" bpmnElement="Association_15s39fu">
@@ -445,7 +473,7 @@
         <di:waypoint x="1709" y="459" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Participant_1sflz7e_di" bpmnElement="Participant_1sflz7e" isHorizontal="true">
-        <dc:Bounds x="115" y="700" width="2055" height="120" />
+        <dc:Bounds x="115" y="700" width="2055" height="201" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1pxyyl7_di" bpmnElement="Flow_1pxyyl7">
         <di:waypoint x="238" y="760" />
@@ -553,6 +581,55 @@
       <bpmndi:BPMNEdge id="Flow_0w8m8gs_di" bpmnElement="Flow_0w8m8gs">
         <di:waypoint x="710" y="510" />
         <di:waypoint x="710" y="700" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_03gw6en_di" bpmnElement="TextAnnotation_03gw6en" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="180" y="445" width="100" height="26" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1fpe2ay_di" bpmnElement="Association_1fpe2ay">
+        <di:waypoint x="281" y="530" />
+        <di:waypoint x="239" y="471" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_0phd033_di" bpmnElement="TextAnnotation_0phd033" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="480" y="410" width="100" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0mwftbl_di" bpmnElement="Association_0mwftbl">
+        <di:waypoint x="489" y="530" />
+        <di:waypoint x="514" y="478" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_17oersg_di" bpmnElement="TextAnnotation_17oersg" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="800" y="712" width="100" height="96" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1b4e5c0_di" bpmnElement="Association_1b4e5c0">
+        <di:waypoint x="729" y="510" />
+        <di:waypoint x="827" y="712" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_1xtu08c_di" bpmnElement="TextAnnotation_1xtu08c" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="1170" y="705" width="100" height="110" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0vlcwur_di" bpmnElement="Association_0vlcwur">
+        <di:waypoint x="1259" y="610" />
+        <di:waypoint x="1234" y="705" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_0394ag3_di" bpmnElement="TextAnnotation_0394ag3" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="1370" y="712" width="100" height="96" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0xydemy_di" bpmnElement="Association_0xydemy">
+        <di:waypoint x="1412" y="610" />
+        <di:waypoint x="1417" y="712" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_0qtq0rx_di" bpmnElement="TextAnnotation_0qtq0rx" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="1530" y="733" width="100" height="54" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0ah2qnw_di" bpmnElement="Association_0ah2qnw">
+        <di:waypoint x="1564" y="610" />
+        <di:waypoint x="1577" y="733" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_160sa3v_di" bpmnElement="TextAnnotation_160sa3v" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="1670" y="733" width="100" height="96" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0go1ksu_di" bpmnElement="Association_0go1ksu">
+        <di:waypoint x="1688" y="610" />
+        <di:waypoint x="1711" y="733" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
