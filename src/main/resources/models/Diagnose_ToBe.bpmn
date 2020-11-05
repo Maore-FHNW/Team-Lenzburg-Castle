@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_12d8c92" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.3.0">
+  <bpmn:collaboration id="Collaboration_0u5l6eu">
+    <bpmn:participant id="Participant_0obwtag" name="Doctor" processRef="Process_15e5ghi" />
+    <bpmn:participant id="Participant_09fwwft" name="Patient" processRef="Process_1xkvkfa" />
+    <bpmn:messageFlow id="Flow_019ae6v" sourceRef="Activity_0uy7w93" targetRef="Participant_09fwwft" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_15e5ghi" isExecutable="true">
+    <bpmn:exclusiveGateway id="Gateway_1l3b2bf" name="Medication with prescription needed">
+      <bpmn:incoming>Flow_1w577eq</bpmn:incoming>
+      <bpmn:outgoing>Flow_0se632a</bpmn:outgoing>
+      <bpmn:outgoing>Flow_074kgnv</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1w577eq" sourceRef="Activity_1l1fsd0" targetRef="Gateway_1l3b2bf" />
+    <bpmn:sequenceFlow id="Flow_0se632a" name="Yes" sourceRef="Gateway_1l3b2bf" targetRef="Activity_0t1i7bf">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${prescription_needed==true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_074kgnv" name="No" sourceRef="Gateway_1l3b2bf" targetRef="Gateway_1lq7o05">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${prescription_needed==false}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1jg4pig" sourceRef="Activity_0t1i7bf" targetRef="Activity_0t5r1gf" />
+    <bpmn:userTask id="Activity_1l1fsd0" name="Diagnose" camunda:assignee="Doctor">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="prescription_needed" label="Prescription Needed" type="boolean" defaultValue="false" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0skcuii</bpmn:incoming>
+      <bpmn:outgoing>Flow_1w577eq</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:startEvent id="Event_07yev2k">
+      <bpmn:outgoing>Flow_0skcuii</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0skcuii" sourceRef="Event_07yev2k" targetRef="Activity_1l1fsd0" />
+    <bpmn:exclusiveGateway id="Gateway_1lq7o05">
+      <bpmn:incoming>Flow_074kgnv</bpmn:incoming>
+      <bpmn:incoming>Flow_0wlve7h</bpmn:incoming>
+      <bpmn:outgoing>Flow_1lcidhy</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Event_1sj6585">
+      <bpmn:incoming>Flow_059j07r</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:dataObjectReference id="DataObjectReference_1rw9f3n" name="Note" dataObjectRef="DataObject_01ftmu6" />
+    <bpmn:dataObject id="DataObject_01ftmu6" />
+    <bpmn:manualTask id="Activity_0uy7w93" name="Write Note with needed Medication">
+      <bpmn:incoming>Flow_1lcidhy</bpmn:incoming>
+      <bpmn:outgoing>Flow_059j07r</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_1je7ixf">
+        <bpmn:targetRef>DataObjectReference_1rw9f3n</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:manualTask>
+    <bpmn:sequenceFlow id="Flow_1lcidhy" sourceRef="Gateway_1lq7o05" targetRef="Activity_0uy7w93" />
+    <bpmn:sequenceFlow id="Flow_059j07r" sourceRef="Activity_0uy7w93" targetRef="Event_1sj6585" />
+    <bpmn:userTask id="Activity_0t1i7bf" name="Create Prescription" camunda:assignee="Doctor">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="customer_id" label="Customer #" type="string" />
+          <camunda:formField id="doctor_id" label="Doctor #" type="string" />
+          <camunda:formField id="symptoms" label="Symptoms" type="string" />
+          <camunda:formField id="product_id" label="Product" type="string" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0se632a</bpmn:incoming>
+      <bpmn:outgoing>Flow_1jg4pig</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_0wlve7h" sourceRef="Activity_0t5r1gf" targetRef="Gateway_1lq7o05" />
+    <bpmn:dataStoreReference id="DataStoreReference_14tlrbr" name="E-Patient Dossier" />
+    <bpmn:serviceTask id="Activity_0t5r1gf" name="Save Prescription">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="headers">
+              <camunda:map>
+                <camunda:entry key="Content-Type">application/json</camunda:entry>
+              </camunda:map>
+            </camunda:inputParameter>
+            <camunda:inputParameter name="payload">
+              <camunda:script scriptFormat="JavaScript">out=JSON.stringify({
+"customer_id": customer_id,
+"doctor_id":doctor_id,
+"symptoms":symptoms,
+"product_id":product_id
+});</camunda:script>
+            </camunda:inputParameter>
+            <camunda:inputParameter name="url">https://hook.integromat.com/r3q3gtm24ga8enxcwl4qqr4pcljep3qh</camunda:inputParameter>
+            <camunda:inputParameter name="method">POST</camunda:inputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1jg4pig</bpmn:incoming>
+      <bpmn:outgoing>Flow_0wlve7h</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_1teidd6">
+        <bpmn:targetRef>DataStoreReference_14tlrbr</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:textAnnotation id="TextAnnotation_06u8w33">
+      <bpmn:text>digitize: write prescription in a database (postgres) and create a prescription pdf with neccesary info</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_196kk3w" sourceRef="Activity_1l1fsd0" targetRef="TextAnnotation_004k33w" />
+    <bpmn:textAnnotation id="TextAnnotation_004k33w">
+      <bpmn:text>maybe write diagnosis data into e-patient dossier</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1iy6e27" sourceRef="Activity_0t5r1gf" targetRef="TextAnnotation_06u8w33" />
+  </bpmn:process>
+  <bpmn:process id="Process_1xkvkfa" isExecutable="false" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0u5l6eu">
+      <bpmndi:BPMNShape id="Participant_0obwtag_di" bpmnElement="Participant_0obwtag" isHorizontal="true">
+        <dc:Bounds x="129" y="80" width="991" height="398" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1jg4pig_di" bpmnElement="Flow_1jg4pig">
+        <di:waypoint x="669" y="213" />
+        <di:waypoint x="669" y="234" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_074kgnv_di" bpmnElement="Flow_074kgnv">
+        <di:waypoint x="459" y="198" />
+        <di:waypoint x="459" y="400" />
+        <di:waypoint x="644" y="400" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="553" y="378" width="15" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0se632a_di" bpmnElement="Flow_0se632a">
+        <di:waypoint x="484" y="173" />
+        <di:waypoint x="619" y="173" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="543" y="155" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1w577eq_di" bpmnElement="Flow_1w577eq">
+        <di:waypoint x="369" y="173" />
+        <di:waypoint x="434" y="173" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0skcuii_di" bpmnElement="Flow_0skcuii">
+        <di:waypoint x="218" y="173" />
+        <di:waypoint x="269" y="173" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1lcidhy_di" bpmnElement="Flow_1lcidhy">
+        <di:waypoint x="694" y="400" />
+        <di:waypoint x="739" y="400" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_059j07r_di" bpmnElement="Flow_059j07r">
+        <di:waypoint x="839" y="400" />
+        <di:waypoint x="891" y="400" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0wlve7h_di" bpmnElement="Flow_0wlve7h">
+        <di:waypoint x="669" y="314" />
+        <di:waypoint x="669" y="375" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Gateway_1l3b2bf_di" bpmnElement="Gateway_1l3b2bf" isMarkerVisible="true">
+        <dc:Bounds x="434" y="148" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="421" y="98" width="76" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_06u8w33_di" bpmnElement="TextAnnotation_06u8w33" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="750" y="100" width="250" height="59.995644599303134" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_004k33w_di" bpmnElement="TextAnnotation_004k33w">
+        <dc:Bounds x="340" y="240" width="100" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1cm6m9a_di" bpmnElement="Activity_1l1fsd0">
+        <dc:Bounds x="269" y="133" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_07yev2k_di" bpmnElement="Event_07yev2k">
+        <dc:Bounds x="182" y="155" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1lq7o05_di" bpmnElement="Gateway_1lq7o05" isMarkerVisible="true">
+        <dc:Bounds x="644" y="375" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1sj6585_di" bpmnElement="Event_1sj6585">
+        <dc:Bounds x="891" y="382" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DataObjectReference_1rw9f3n_di" bpmnElement="DataObjectReference_1rw9f3n">
+        <dc:Bounds x="771" y="275" width="36" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="777" y="290" width="24" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0nmoc0j_di" bpmnElement="Activity_0uy7w93">
+        <dc:Bounds x="739" y="360" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0zbrm6s_di" bpmnElement="Activity_0t1i7bf" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="619" y="133" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DataStoreReference_14tlrbr_di" bpmnElement="DataStoreReference_14tlrbr" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="505" y="253" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="488" y="310" width="86" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0u4odhu_di" bpmnElement="Activity_0t5r1gf">
+        <dc:Bounds x="619" y="234" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_196kk3w_di" bpmnElement="Association_196kk3w">
+        <di:waypoint x="347" y="213" />
+        <di:waypoint x="366" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1iy6e27_di" bpmnElement="Association_1iy6e27">
+        <di:waypoint x="720" y="240" />
+        <di:waypoint x="831" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Participant_09fwwft_di" bpmnElement="Participant_09fwwft" isHorizontal="true">
+        <dc:Bounds x="129" y="478" width="991" height="75" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_1teidd6_di" bpmnElement="DataOutputAssociation_1teidd6">
+        <di:waypoint x="619" y="274" />
+        <di:waypoint x="555" y="274" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_019ae6v_di" bpmnElement="Flow_019ae6v">
+        <di:waypoint x="789" y="440" />
+        <di:waypoint x="789" y="478" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_1je7ixf_di" bpmnElement="DataOutputAssociation_1je7ixf">
+        <di:waypoint x="788" y="360" />
+        <di:waypoint x="788" y="325" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
