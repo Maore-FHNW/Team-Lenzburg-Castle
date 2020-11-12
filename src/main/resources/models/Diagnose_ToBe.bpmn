@@ -72,13 +72,6 @@ prescription_id=object.pescriptionid;</camunda:script>
         <bpmn:targetRef>DataStoreReference_14tlrbr</bpmn:targetRef>
       </bpmn:dataOutputAssociation>
     </bpmn:serviceTask>
-    <bpmn:manualTask id="Activity_0uy7w93" name="Write Note with needed Medication">
-      <bpmn:incoming>Flow_1lcidhy</bpmn:incoming>
-      <bpmn:outgoing>Flow_059j07r</bpmn:outgoing>
-      <bpmn:dataOutputAssociation id="DataOutputAssociation_1je7ixf">
-        <bpmn:targetRef>DataObjectReference_1rw9f3n</bpmn:targetRef>
-      </bpmn:dataOutputAssociation>
-    </bpmn:manualTask>
     <bpmn:exclusiveGateway id="Gateway_1lq7o05">
       <bpmn:incoming>Flow_074kgnv</bpmn:incoming>
       <bpmn:incoming>Flow_0wlve7h</bpmn:incoming>
@@ -93,7 +86,7 @@ prescription_id=object.pescriptionid;</camunda:script>
           <camunda:inputOutput>
             <camunda:inputParameter name="method">POST</camunda:inputParameter>
             <camunda:inputParameter name="url">https://hook.integromat.com/16tu53z8yd1hefxiwfifbwga47it89i8</camunda:inputParameter>
-            <camunda:inputParameter name="header">
+            <camunda:inputParameter name="headers">
               <camunda:map>
                 <camunda:entry key="Content-Type">application/json</camunda:entry>
               </camunda:map>
@@ -127,6 +120,13 @@ prescription_id=object.pescriptionid;</camunda:script>
     <bpmn:dataObjectReference id="DataObjectReference_1rw9f3n" name="Note" dataObjectRef="DataObject_01ftmu6" />
     <bpmn:dataObject id="DataObject_01ftmu6" />
     <bpmn:dataStoreReference id="DataStoreReference_14tlrbr" name="E-Patient (Postgres)" />
+    <bpmn:userTask id="Activity_0uy7w93" name="Write Note with needed Medication">
+      <bpmn:incoming>Flow_1lcidhy</bpmn:incoming>
+      <bpmn:outgoing>Flow_059j07r</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_1je7ixf">
+        <bpmn:targetRef>DataObjectReference_1rw9f3n</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:userTask>
     <bpmn:textAnnotation id="TextAnnotation_004k33w">
       <bpmn:text>maybe write diagnosis data into e-patient dossier</bpmn:text>
     </bpmn:textAnnotation>
@@ -203,9 +203,6 @@ prescription_id=object.pescriptionid;</camunda:script>
       <bpmndi:BPMNShape id="Activity_0u4odhu_di" bpmnElement="Activity_0t5r1gf" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
         <dc:Bounds x="690" y="213" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0nmoc0j_di" bpmnElement="Activity_0uy7w93" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
-        <dc:Bounds x="940" y="440" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_1lq7o05_di" bpmnElement="Gateway_1lq7o05" isMarkerVisible="true">
         <dc:Bounds x="855" y="455" width="50" height="50" />
       </bpmndi:BPMNShape>
@@ -232,6 +229,9 @@ prescription_id=object.pescriptionid;</camunda:script>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_1vkz34l_di" bpmnElement="TextAnnotation_1vkz34l" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
         <dc:Bounds x="990" y="200" width="99.99274099883856" height="95.23809523809524" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1hkuzzd_di" bpmnElement="Activity_0uy7w93" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+        <dc:Bounds x="940" y="440" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_196kk3w_di" bpmnElement="Association_196kk3w">
         <di:waypoint x="347" y="293" />
