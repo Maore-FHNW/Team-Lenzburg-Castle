@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1hq7wu3" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.4.0">
+  <bpmn:collaboration id="Collaboration_13q0nt1">
+    <bpmn:participant id="Participant_0gsjgn1" processRef="Process_1lkiobz" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_1lkiobz" name="qr-code-test" isExecutable="true">
+    <bpmn:laneSet id="LaneSet_0v4p06e">
+      <bpmn:lane id="Lane_1cb8kgg" name="App">
+        <bpmn:flowNodeRef>Task_1iyzfmd</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_0xtho7q</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_09y7eyd" name="Customer">
+        <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_13pd4d2</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:serviceTask id="Task_1iyzfmd" name="Generate QR-Code &#38; Send to Customer">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="payload">
+              <camunda:script scriptFormat="JavaScript">out=JSON.stringify({
+"order-id": order-id,
+});</camunda:script>
+            </camunda:inputParameter>
+            <camunda:inputParameter name="headers">
+              <camunda:map>
+                <camunda:entry key="Content-Type">application/json</camunda:entry>
+              </camunda:map>
+            </camunda:inputParameter>
+            <camunda:inputParameter name="url">https://hook.integromat.com/0g6msy939bs079ndo8x4441xdlied7md</camunda:inputParameter>
+            <camunda:inputParameter name="method">POST</camunda:inputParameter>
+            <camunda:outputParameter name="patient_id">
+              <camunda:script scriptFormat="JavaScript">object=JSON.parse(response);
+patient_id=object.patientid;</camunda:script>
+            </camunda:outputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1vw1jxj</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0zrq9mh</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>SequenceFlow_1ljp8xb</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Task_13pd4d2" name="Place Order">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="order-id" label="OrderID #" type="string" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1ljp8xb</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1vw1jxj</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1ljp8xb" sourceRef="StartEvent_1" targetRef="Task_13pd4d2" />
+    <bpmn:sequenceFlow id="SequenceFlow_0zrq9mh" sourceRef="Task_1iyzfmd" targetRef="EndEvent_0xtho7q" />
+    <bpmn:sequenceFlow id="SequenceFlow_1vw1jxj" sourceRef="Task_13pd4d2" targetRef="Task_1iyzfmd" />
+    <bpmn:endEvent id="EndEvent_0xtho7q">
+      <bpmn:incoming>SequenceFlow_0zrq9mh</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_13q0nt1">
+      <bpmndi:BPMNShape id="Participant_0gsjgn1_di" bpmnElement="Participant_0gsjgn1" isHorizontal="true">
+        <dc:Bounds x="130" y="83" width="680" height="337" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_09y7eyd_di" bpmnElement="Lane_09y7eyd" isHorizontal="true">
+        <dc:Bounds x="160" y="252" width="650" height="168" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1cb8kgg_di" bpmnElement="Lane_1cb8kgg" isHorizontal="true">
+        <dc:Bounds x="160" y="83" width="650" height="169" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1vw1jxj_di" bpmnElement="SequenceFlow_1vw1jxj">
+        <di:waypoint x="460" y="300" />
+        <di:waypoint x="460" y="147" />
+        <di:waypoint x="510" y="147" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0zrq9mh_di" bpmnElement="SequenceFlow_0zrq9mh">
+        <di:waypoint x="610" y="147" />
+        <di:waypoint x="682" y="147" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1ljp8xb_di" bpmnElement="SequenceFlow_1ljp8xb">
+        <di:waypoint x="277" y="340" />
+        <di:waypoint x="410" y="340" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_076d9xb_di" bpmnElement="Task_1iyzfmd">
+        <dc:Bounds x="510" y="107" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="241" y="322" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_0gozniv_di" bpmnElement="Task_13pd4d2">
+        <dc:Bounds x="410" y="300" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0xtho7q_di" bpmnElement="EndEvent_0xtho7q">
+        <dc:Bounds x="682" y="129" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

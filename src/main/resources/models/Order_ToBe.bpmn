@@ -8,6 +8,7 @@
     <bpmn:messageFlow id="Flow_1o2qfhv" sourceRef="Activity_0u956um" targetRef="Participant_1sflz7e" />
     <bpmn:messageFlow id="Flow_0w8m8gs" sourceRef="Activity_0pwk0ja" targetRef="Participant_1sflz7e" />
     <bpmn:messageFlow id="Flow_1gti9qa" sourceRef="Activity_0v33c4r" targetRef="Participant_1sflz7e" />
+    <bpmn:messageFlow id="MessageFlow_10hagii" sourceRef="Activity_0nf1cuh" targetRef="Participant_1sflz7e" />
   </bpmn:collaboration>
   <bpmn:process id="Process_0ica8i3" isExecutable="true">
     <bpmn:sequenceFlow id="Flow_01sv2sl" sourceRef="Activity_0ul4i93" targetRef="Activity_0v33c4r" />
@@ -155,9 +156,11 @@ hasprescription=object.hasprescription;</camunda:script>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1bddv8l</bpmn:incoming>
       <bpmn:outgoing>Flow_10h8y9j</bpmn:outgoing>
-      <bpmn:dataOutputAssociation id="DataOutputAssociation_0t1rpgn">
-        <bpmn:targetRef>DataStoreReference_0mhovsw</bpmn:targetRef>
-      </bpmn:dataOutputAssociation>
+      <bpmn:property id="Property_0c3knso" name="__targetRef_placeholder" />
+      <bpmn:dataInputAssociation id="DataInputAssociation_1u7r9m1">
+        <bpmn:sourceRef>DataStoreReference_0mhovsw</bpmn:sourceRef>
+        <bpmn:targetRef>Property_0c3knso</bpmn:targetRef>
+      </bpmn:dataInputAssociation>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="Activity_16il0x1" name="Update Patient Dossier">
       <bpmn:incoming>Flow_10h8y9j</bpmn:incoming>
@@ -198,7 +201,6 @@ hasprescription=object.hasprescription;</camunda:script>
     </bpmn:textAnnotation>
     <bpmn:association id="Association_0mwftbl" sourceRef="Activity_1xr8heo" targetRef="TextAnnotation_0phd033" />
     <bpmn:association id="Association_1b4e5c0" sourceRef="Activity_0pwk0ja" targetRef="TextAnnotation_17oersg" />
-    <bpmn:association id="Association_0go1ksu" sourceRef="Activity_0nf1cuh" targetRef="TextAnnotation_160sa3v" />
     <bpmn:association id="Association_1uutvy3" sourceRef="Activity_0nf1cuh" targetRef="TextAnnotation_16ax9fn" />
     <bpmn:association id="Association_15s39fu" sourceRef="Activity_0e6veoe" targetRef="TextAnnotation_12vr2xk" />
   </bpmn:process>
@@ -214,9 +216,6 @@ hasprescription=object.hasprescription;</camunda:script>
     </bpmn:textAnnotation>
     <bpmn:textAnnotation id="TextAnnotation_0qtq0rx">
       <bpmn:text>Check: Did the payment arrive?</bpmn:text>
-    </bpmn:textAnnotation>
-    <bpmn:textAnnotation id="TextAnnotation_160sa3v">
-      <bpmn:text>QR-Code only needed when Pickup in Pharmacy or at self-service station</bpmn:text>
     </bpmn:textAnnotation>
   </bpmn:process>
   <bpmn:process id="Process_1i3llpd" isExecutable="false">
@@ -372,8 +371,8 @@ hasprescription=object.hasprescription;</camunda:script>
         <dc:Bounds x="1010" y="480" width="100" height="30" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_0ah2qnw_di" bpmnElement="Association_0ah2qnw">
-        <di:waypoint x="1564" y="610" />
-        <di:waypoint x="1577" y="733" />
+        <di:waypoint x="1571" y="610" />
+        <di:waypoint x="1603" y="733" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Association_0vlcwur_di" bpmnElement="Association_0vlcwur">
         <di:waypoint x="1259" y="610" />
@@ -386,10 +385,6 @@ hasprescription=object.hasprescription;</camunda:script>
       <bpmndi:BPMNEdge id="Association_1b4e5c0_di" bpmnElement="Association_1b4e5c0">
         <di:waypoint x="729" y="510" />
         <di:waypoint x="827" y="712" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_0go1ksu_di" bpmnElement="Association_0go1ksu">
-        <di:waypoint x="1688" y="610" />
-        <di:waypoint x="1711" y="733" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Association_1uutvy3_di" bpmnElement="Association_1uutvy3">
         <di:waypoint x="1709" y="530" />
@@ -412,10 +407,7 @@ hasprescription=object.hasprescription;</camunda:script>
         <dc:Bounds x="1370" y="712" width="100" height="96" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_0qtq0rx_di" bpmnElement="TextAnnotation_0qtq0rx" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
-        <dc:Bounds x="1530" y="733" width="100" height="54" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_160sa3v_di" bpmnElement="TextAnnotation_160sa3v" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
-        <dc:Bounds x="1670" y="733" width="100" height="96" />
+        <dc:Bounds x="1560" y="733" width="100" height="54" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Participant_1atlwjs_di" bpmnElement="Participant_1atlwjs" isHorizontal="true">
         <dc:Bounds x="115" y="80" width="2055" height="255" />
@@ -439,14 +431,14 @@ hasprescription=object.hasprescription;</camunda:script>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="DataOutputAssociation_0l3pwkx_di" bpmnElement="DataOutputAssociation_0l3pwkx">
-        <di:waypoint x="1540" y="530" />
-        <di:waypoint x="1540" y="260" />
-        <di:waypoint x="1555" y="257" />
+        <di:waypoint x="1530" y="530" />
+        <di:waypoint x="1530" y="260" />
+        <di:waypoint x="1555" y="260" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="DataOutputAssociation_0odzqr9_di" bpmnElement="DataOutputAssociation_0odzqr9">
         <di:waypoint x="1410" y="530" />
-        <di:waypoint x="1410" y="250" />
-        <di:waypoint x="1555" y="250" />
+        <di:waypoint x="1410" y="240" />
+        <di:waypoint x="1555" y="240" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="DataOutputAssociation_0o0eihr_di" bpmnElement="DataOutputAssociation_0o0eihr">
         <di:waypoint x="1270" y="530" />
@@ -466,11 +458,6 @@ hasprescription=object.hasprescription;</camunda:script>
         <di:waypoint x="960" y="530" />
         <di:waypoint x="960" y="250" />
         <di:waypoint x="670" y="250" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataOutputAssociation_0t1rpgn_di" bpmnElement="DataOutputAssociation_0t1rpgn">
-        <di:waypoint x="1640" y="530" />
-        <di:waypoint x="1640" y="260" />
-        <di:waypoint x="1605" y="260" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="DataOutputAssociation_0jlkzty_di" bpmnElement="DataOutputAssociation_0jlkzty">
         <di:waypoint x="1830" y="530" />
@@ -500,6 +487,15 @@ hasprescription=object.hasprescription;</camunda:script>
       <bpmndi:BPMNEdge id="Flow_1gti9qa_di" bpmnElement="Flow_1gti9qa">
         <di:waypoint x="1560" y="610" />
         <di:waypoint x="1560" y="700" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DataInputAssociation_1u7r9m1_di" bpmnElement="DataInputAssociation_1u7r9m1">
+        <di:waypoint x="1605" y="250" />
+        <di:waypoint x="1660" y="250" />
+        <di:waypoint x="1660" y="530" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="MessageFlow_10hagii_di" bpmnElement="MessageFlow_10hagii">
+        <di:waypoint x="1680" y="610" />
+        <di:waypoint x="1680" y="700" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
