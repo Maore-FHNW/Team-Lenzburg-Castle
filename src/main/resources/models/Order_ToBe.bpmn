@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_03wpv8a" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.3.5">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_03wpv8a" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.3.0">
   <bpmn:collaboration id="Collaboration_0mod07l">
     <bpmn:participant id="Participant_1t9yldq" name="App" processRef="Process_0ica8i3" />
     <bpmn:participant id="Participant_1sflz7e" name="Customer" processRef="Process_1su1ssz" />
@@ -42,7 +42,7 @@
         <bpmn:targetRef>DataStoreReference_0mhovsw</bpmn:targetRef>
       </bpmn:dataOutputAssociation>
     </bpmn:userTask>
-    <bpmn:serviceTask id="Activity_0u956um" name="Suggest Product">
+    <bpmn:serviceTask id="Activity_0u956um" name="Read prescription and suggest Product">
       <bpmn:incoming>Flow_05d0bx0</bpmn:incoming>
       <bpmn:outgoing>Flow_190w5x5</bpmn:outgoing>
       <bpmn:dataOutputAssociation id="DataOutputAssociation_0o0eihr">
@@ -459,6 +459,11 @@ hasprescription=object.hasprescription;</camunda:script>
         <di:waypoint x="960" y="250" />
         <di:waypoint x="670" y="250" />
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DataInputAssociation_1u7r9m1_di" bpmnElement="DataInputAssociation_1u7r9m1">
+        <di:waypoint x="1605" y="250" />
+        <di:waypoint x="1660" y="250" />
+        <di:waypoint x="1660" y="530" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="DataOutputAssociation_0jlkzty_di" bpmnElement="DataOutputAssociation_0jlkzty">
         <di:waypoint x="1830" y="530" />
         <di:waypoint x="1830" y="360" />
@@ -487,11 +492,6 @@ hasprescription=object.hasprescription;</camunda:script>
       <bpmndi:BPMNEdge id="Flow_1gti9qa_di" bpmnElement="Flow_1gti9qa">
         <di:waypoint x="1560" y="610" />
         <di:waypoint x="1560" y="700" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataInputAssociation_1u7r9m1_di" bpmnElement="DataInputAssociation_1u7r9m1">
-        <di:waypoint x="1605" y="250" />
-        <di:waypoint x="1660" y="250" />
-        <di:waypoint x="1660" y="530" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="MessageFlow_10hagii_di" bpmnElement="MessageFlow_10hagii">
         <di:waypoint x="1680" y="610" />
